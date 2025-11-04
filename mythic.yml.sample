@@ -1,0 +1,7 @@
+mythic_host: "127.0.0.1"
+mythic_port: 7443
+mythic_username: "mythic_admin"
+mythic_password: "GOd1HWBekabv6O7VTffv7nRksbhJyk"
+mythic_c2_url:
+  http: "http://192.168.56.1" 
+  httpx: "http://192.168.56.1:82" 
