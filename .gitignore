@@ -1,5 +1,5 @@
 **.yml
-!examples/
+!examples/*
 files/*
 !files/.gitkeep
 !files/image.jpg
