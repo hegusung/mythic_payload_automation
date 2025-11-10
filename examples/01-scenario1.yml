@@ -1,13 +1,13 @@
 payloads:
   - name: scenario1_psh_shellcode.ps1 
-    payload: psh_shellcode_execution
+    payload: psh_wraps_shellcode
     os: Windows
     wrapper: True
     wrapped_payload: apollo.shellcode 
     parameters: {} 
 
   - name: scenario1_psh_iex.ps1 
-    payload: psh_download_execute_psh
+    payload: psh_remote_psh
     os: Windows
     downloader: True
     downloaded_payload: scenario1_psh_shellcode.ps1
@@ -17,7 +17,7 @@ payloads:
     parameters: {}
 
   - name: scenario1_powershell.cmd 
-    payload: powershell_to_cmd
+    payload: cmd_wraps_powershell
     os: Windows
     wrapper: True
     wrapped_payload: scenario1_psh_iex.ps1
@@ -25,7 +25,7 @@ payloads:
       mode: inline
 
   - name: scenario1.lnk
-    payload: cmd_to_lnk
+    payload: lnk_wraps_cmd
     os: Windows
     wrapper: True
     wrapped_payload: scenario1_powershell.cmd

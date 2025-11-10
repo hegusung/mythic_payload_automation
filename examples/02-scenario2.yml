@@ -13,7 +13,7 @@ payloads:
       path: "%APPDATA%\\sample.exe"
 
   - name: scenario2.sct
-    payload: script_to_sct
+    payload: sct_wraps_script
     os: Windows
     wrapper: True
     wrapped_payload: scenario2_download_execute.js

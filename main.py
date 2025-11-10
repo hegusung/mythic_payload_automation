@@ -79,13 +79,20 @@ async def create_stage(mythic_instance, payload, c2_url):
     # Prepare build parameters
     build_parameters = []
     for key, value in payload['parameters'].items():
-        if type(value) == str and value.startswith("file:"):
+        if type(value) == str and value.startswith("file:") and not value.startswith("file://"):
             param_file = os.path.join("files", value[len("file:"):])
             
             with open(param_file, "rb") as f2:
                 file_content = f2.read()
 
                 value = await upload_new_file(mythic_instance, value[len("file:"):], file_content)
+
+        elif type(value) == str and value.startswith("payload:"):
+            value = await get_payload_uuid(mythic_instance, value[len("payload:"):])
+            value = value['file_uuid']
+
+            if value == None:
+                raise Exception("Failed to get the following payload: %s" %  value[len("payload:"):])
 
         elif value == None:
             value = ""
@@ -117,6 +124,7 @@ async def create_stage(mythic_instance, payload, c2_url):
             raise Exception("Payload %s doesn't exist in Mythic !" % payload['downloaded_payload'])
 
         registered_file_uuid = downloaded_payload['file_uuid']
+        payload_uuid = downloaded_payload['uuid']
 
         # Get C2 ID
         c2_profiles_info = await mythic_utilities.graphql_post(
@@ -188,13 +196,12 @@ async def create_stage(mythic_instance, payload, c2_url):
                     return_on_complete=True,
             )
         elif downloader and not wrapper:
-            payload_response = await mythic.create_payload(
+            payload_response = await mythic.create_wrapper_payload(
                     mythic=mythic_instance,
                     payload_type_name=payload['payload'],
                     filename=payload['name'],
                     operating_system=payload['os'],
-                    commands=[],
-                    c2_profiles=[],
+                    wrapped_payload_uuid=payload_uuid,
                     build_parameters=build_parameters,
                     return_on_complete=True,
             )
